@@ -62,7 +62,7 @@ check_port() {
 
 # Check if Docker services are running
 echo "🐳 Starting Docker infrastructure..."
-docker-compose -f docker-compose.infrastructure.yml up -d 2>/dev/null || docker compose -f docker-compose.infrastructure.yml up -d
+docker-compose -f docker-compose-infra.yml up -d 2>/dev/null || docker compose -f docker-compose-infra.yml up -d
 
 # Wait for services to be healthy
 echo "⏳ Waiting for services to be healthy..."
@@ -142,7 +142,7 @@ fi
 
 # Start LibreChat
 echo "🚀 Starting LibreChat on port $LIBRECHAT_PORT..."
-npm run backend > "$SCRIPT_DIR/logs/librechat.log" 2>&1 &
+npm run backend > "$SCRIPT_DIR/logs/librechat-backend.log" 2>&1 &
 LIBRECHAT_PID=$!
 
 cd "$SCRIPT_DIR"
@@ -153,7 +153,7 @@ echo "LIBRECHAT_PID=$LIBRECHAT_PID" > .pids
 # Wait for LibreChat to be ready
 echo -n "  Waiting for LibreChat: "
 for i in {1..60}; do
-    if curl -s http://localhost:$LIBRECHAT_PORT/api/health >/dev/null 2>&1; then
+    if curl -s http://localhost:$LIBRECHAT_PORT >/dev/null 2>&1; then
         echo -e "${GREEN}✓${NC}"
         break
     fi
@@ -162,9 +162,9 @@ for i in {1..60}; do
 done
 
 # Check if it actually started
-if ! curl -s http://localhost:$LIBRECHAT_PORT/api/health >/dev/null 2>&1; then
-    echo -e "\n${RED}✗ LibreChat failed to start - check logs/librechat.log${NC}"
-    tail -20 logs/librechat.log
+if ! curl -s http://localhost:$LIBRECHAT_PORT >/dev/null 2>&1; then
+    echo -e "\n${RED}✗ LibreChat failed to start - check logs/librechat-backend.log${NC}"
+    tail -20 logs/librechat-backend.log
     exit 1
 fi
 
@@ -183,8 +183,8 @@ echo "  - gemma3:27b"
 echo ""
 echo "📋 Commands:"
 echo "  Stop all: ./stop-services.sh"
-echo "  View logs: tail -f logs/librechat.log"
-echo "  View Docker logs: docker-compose -f docker-compose.infrastructure.yml logs -f"
+echo "  View logs: tail -f logs/librechat-backend.log"
+echo "  View Docker logs: docker compose -f docker-compose-infra.yml logs -f"
 echo ""
 
 # Start Cloudflare tunnel if requested

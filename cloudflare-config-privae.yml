@@ -1,0 +1,26 @@
+tunnel: 09fb2104-202f-4509-934d-546b701300c1
+credentials-file: /home/mbc/.cloudflared/09fb2104-202f-4509-934d-546b701300c1.json
+
+ingress:
+  # LibreChat API endpoints
+  - hostname: privae.umbrella7.com
+    path: /api/*
+    service: http://localhost:3026
+    originRequest:
+      noTLSVerify: true
+
+  # Socket.io for real-time features
+  - hostname: privae.umbrella7.com
+    path: /socket.io/*
+    service: http://localhost:3026
+    originRequest:
+      noTLSVerify: true
+
+  # Main frontend (everything else)
+  - hostname: privae.umbrella7.com
+    service: http://localhost:3026
+    originRequest:
+      noTLSVerify: true
+
+  # Catch-all rule
+  - service: http_status:404

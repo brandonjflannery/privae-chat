@@ -65,11 +65,11 @@ read -p "🐳 Stop Docker services (MongoDB, Meilisearch, Redis)? (y/N): " -n 1 
 echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "🐳 Stopping Docker services..."
-    docker-compose -f docker-compose.infrastructure.yml down 2>/dev/null || docker compose -f docker-compose.infrastructure.yml down
+    docker-compose -f docker-compose-infra.yml down 2>/dev/null || docker compose -f docker-compose-infra.yml down
     echo -e "  ${GREEN}✓${NC} Docker services stopped"
 else
     echo "  ℹ️  Docker services left running"
-    echo "  To stop manually: docker-compose -f docker-compose.infrastructure.yml down"
+    echo "  To stop manually: docker compose -f docker-compose-infra.yml down"
 fi
 
 echo ""
