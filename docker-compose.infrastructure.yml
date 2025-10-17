@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: privae_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: LibreChat
+    ports:
+      - "27026:27017"
+    volumes:
+      - ./data/mongodb:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    command: mongod --quiet --logpath /dev/null
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.12.3
+    container_name: privae_meilisearch
+    restart: unless-stopped
+    ports:
+      - "7726:7700"
+    environment:
+      MEILI_HOST: http://0.0.0.0:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-DevelopmentKey123456789}
+      MEILI_NO_ANALYTICS: true
+    volumes:
+      - ./data/meilisearch:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: privae_redis
+    restart: unless-stopped
+    ports:
+      - "6326:6379"
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --save 60 1 --loglevel warning
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

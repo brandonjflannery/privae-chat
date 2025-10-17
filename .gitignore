@@ -1,0 +1,27 @@
+# Data directories
+data/
+logs/
+
+# Process IDs
+.pids
+.tunnel.pid
+
+# Cloudflare tunnel logs
+cloudflare-tunnel.log
+
+# Node modules (LibreChat has its own)
+node_modules/
+
+# Environment files with secrets
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
