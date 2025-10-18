@@ -35,6 +35,11 @@ npm run build:packages
 echo "🎨 Building frontend..."
 cd client && npm run build:ci
 
+echo "📋 Copying logo files to dist..."
+cp public/assets/logo.svg dist/assets/
+cp public/assets/logo.png dist/assets/
+echo "✓ Logo files copied"
+
 echo ""
 echo "✅ Build complete!"
 echo "Start services with: ./scripts/start-services.sh"
