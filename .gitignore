@@ -1,19 +1,31 @@
-# Data directories
+# PrivaeChat .gitignore
+
+# Data directories (Docker volumes)
 data/
+
+# Logs
 logs/
+*.log
 
 # Process IDs
 .pids
 .tunnel.pid
 
-# Cloudflare tunnel logs
-cloudflare-tunnel.log
-
-# Node modules (LibreChat has its own)
-node_modules/
+# LibreChat submodule build artifacts
+librechat/node_modules/
+librechat/client/dist/
+librechat/client/node_modules/
+librechat/api/node_modules/
+librechat/packages/*/dist/
+librechat/packages/*/node_modules/
+librechat/.env
 
 # Environment files with secrets
-.env
+config/.env
+
+# Backups
+*.backup/
+*.tar.gz
 
 # OS files
 .DS_Store
@@ -25,3 +37,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Temporary files
+.temp/
+tmp/
