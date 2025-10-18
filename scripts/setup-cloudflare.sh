@@ -4,7 +4,11 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+CLOUDFLARE_DIR="$PROJECT_ROOT/infrastructure/cloudflare"
+
+# Change to cloudflare directory for config file creation
+cd "$CLOUDFLARE_DIR"
 
 echo "🌐 CloudFlare Tunnel Setup for PrivaeChat"
 echo "=========================================="
@@ -172,8 +176,8 @@ echo "  Hostname: https://$HOSTNAME"
 echo "  Config: $SCRIPT_DIR/cloudflare-config-privae.yml"
 echo ""
 echo "🚀 Next Steps:"
-echo "  1. Start your tunnel with: ./start-tunnel.sh"
-echo "  2. Or start services with tunnel: ../../scripts/start-services.sh --tunnel"
+echo "  1. Start services with tunnel: $SCRIPT_DIR/start-services.sh --tunnel"
+echo "  2. Or start tunnel manually: $CLOUDFLARE_DIR/start-tunnel.sh"
 echo ""
 echo "📖 Useful Commands:"
 echo "  List tunnels: cloudflared tunnel list"
