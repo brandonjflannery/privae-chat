@@ -32,11 +32,8 @@ npm ci --quiet
 echo "🔨 Building packages..."
 npm run build:packages
 
-echo "🔨 Building data provider..."
-npm run build:data-provider
-
 echo "🎨 Building frontend..."
-npm run frontend:ci
+cd client && npm run build:ci
 
 echo ""
 echo "✅ Build complete!"
