@@ -20,6 +20,23 @@ fi
 echo "🎨 Applying PrivaeChat branding to LibreChat..."
 echo ""
 
+# Check and configure APP_TITLE in .env
+echo "📝 Checking APP_TITLE configuration..."
+if ! grep -q "^APP_TITLE=" "$PROJECT_ROOT/config/.env" 2>/dev/null; then
+    echo "  ⚠️  APP_TITLE not found in config/.env"
+    echo "  Adding APP_TITLE=Privae..."
+    echo "" >> "$PROJECT_ROOT/config/.env"
+    echo "#==================================" >> "$PROJECT_ROOT/config/.env"
+    echo "# Branding Configuration" >> "$PROJECT_ROOT/config/.env"
+    echo "#==================================" >> "$PROJECT_ROOT/config/.env"
+    echo "APP_TITLE=Privae" >> "$PROJECT_ROOT/config/.env"
+    echo "  ✓ Added APP_TITLE=Privae to config/.env"
+else
+    APP_TITLE_VALUE=$(grep "^APP_TITLE=" "$PROJECT_ROOT/config/.env" | cut -d'=' -f2)
+    echo "  ✓ APP_TITLE already set to: $APP_TITLE_VALUE"
+fi
+echo ""
+
 # Ensure LibreChat assets directory exists
 mkdir -p "$LIBRECHAT_DIR/client/public/assets"
 mkdir -p "$FAVICON_DIR"
